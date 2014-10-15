@@ -18,7 +18,7 @@ e.g. "/private/etc/hosts" for mac
 3. Create a file "apikey.json" under alarm_server dir with the following content  
     {  
       "fb_client_id": "xxxxx",  
-      "fb_client_secret": "xxxxx"
+      "fb_client_secret": "xxxxx"  
     }  
 
 5. Run "mongod" or "mongod -dbpath ~/db".
