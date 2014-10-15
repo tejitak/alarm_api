@@ -50,7 +50,8 @@ if (app.get('env') === 'development') {
         res.status(err.status || 500);
         res.render('error', {
             message: err.message,
-            error: err
+            error: err,
+            config: local_settings
         });
     });
 } else if (app.get('env') === 'production') {
@@ -73,7 +74,7 @@ app.use(function(req, res, next) {
 app.use(function(req, res, next) {
   var reqd = domain.create();
   reqd.on('error', function(err) {
-    res.render('error', {title:'error'});
+    res.render('error', {title:'error', config: local_settings});
   });
   reqd.run(next);
 });

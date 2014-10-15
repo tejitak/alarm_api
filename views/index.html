@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="alarm">
 <head>
     <meta charset="UTF-8">
     <title><%=title%></title>
@@ -7,10 +7,18 @@
     <meta name="format-detection" content="telephone=no">
     <link rel="shortcut icon" href="<%=config.CONTEXT_PATH%>/favicon.ico" />
     <link rel="apple-touch-icon-precomposed" href="<%=config.CONTEXT_PATH%>/apple-touch-icon-precomposed.png">
+    <link rel="stylesheet" href="<%=config.CONTEXT_PATH%>/js/lib/angular-material/angular-material.css">
     <link rel="stylesheet" href="<%=config.CONTEXT_PATH%>/css/main.css">
     <script src="<%=config.CONTEXT_PATH%>/dist/shumi.alarm.main.js"></script>
 </head>
 <body>
     <h1>Alarm App</h1>
+    <div>
+        <div><a href="#/new">New</a></div>
+        <div><a href="#/">List</a></div>
+    </div>
+    <div>
+        <div ng-view></div>
+    </div>
 </body>
 </html>
