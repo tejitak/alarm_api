@@ -7,7 +7,7 @@
 
 ####Development setup
 
-1. git clone https://github.com/tejitak/alarm_server.git
+1. git clone https://github.com/tejitak/alarm_api.git
 
 2. To develop with Facebook auth, modify your hosts file because localhost is not allowed as callback host name. (Currently a domain tejitak.com is configured.)  
 e.g. "/private/etc/hosts" for mac  
@@ -15,7 +15,7 @@ e.g. "/private/etc/hosts" for mac
 
 3. Run "dscacheutil -flushcache" for reloading host file settings.
 
-3. Create a file "apikey.json" under alarm_server dir with the following content  
+3. Create a file "apikey.json" under alarm_api dir with the following content  
     {  
       "fb_client_id": "xxxxx",  
       "fb_client_secret": "xxxxx"  
