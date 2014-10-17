@@ -19,7 +19,7 @@ fs.readFile('apikey.json', 'UTF-8', function (err, data) {
 
 
 /**
- * @api {GET} /groups Get groups which an authenticated user joins
+ * @api {GET} /list Get alarms which an authenticated user joins
  *
  * @apiSuccessExample Success-Response:
  *     HTTP/1.1 200 OK
@@ -31,11 +31,11 @@ fs.readFile('apikey.json', 'UTF-8', function (err, data) {
  *       "error": "404 Unauthorized"
  *     }
  */
-router.get('/groups', function(req, res) {
+router.get('/list', function(req, res) {
     var callback = function(err, authResponse){
         if (err) {
             res.contentType('application/json');
-            res.send('{"error":' + error.message + '}')
+            res.send('{"error":' + err.message + '}')
             return;
         }
         res.contentType('application/json');

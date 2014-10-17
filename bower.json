@@ -17,6 +17,7 @@
     "angular": "~1.3.0",
     "angular-resource": "~1.3.0",
     "angular-route": "~1.3.0",
-    "angular-material": "master"
+    "angular-material": "master",
+    "angular-facebook": "~0.2.3"
   }
 }

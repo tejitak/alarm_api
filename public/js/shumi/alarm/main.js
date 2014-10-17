@@ -1,6 +1,9 @@
-var app = angular.module("alarm", ["ngRoute", "ngAnimate", "ngMaterial", "alarm.controllers", "alarm.services"]);
+var app = angular.module("alarm", ["ngRoute", "ngAnimate", "ngMaterial", "facebook", "alarm.controllers", "alarm.services"]);
 
-app.config(["$routeProvider", function($routeProvider){
+app.config(["$routeProvider", "FacebookProvider", function($routeProvider, FacebookProvider){
+    // setup facebook auth
+    FacebookProvider.init("561154400651504");
+
     $routeProvider.when("/", {
         controller: "ListCtrl",
         templateUrl: "/js/shumi/alarm/views/list.html"

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html ng-app="alarm">
+<html ng-app="alarm" ng-strict-di>
 <head>
     <meta charset="UTF-8">
     <title><%=title%></title>
@@ -8,39 +8,50 @@
     <link rel="shortcut icon" href="<%=config.CONTEXT_PATH%>/favicon.ico" />
     <link rel="apple-touch-icon-precomposed" href="<%=config.CONTEXT_PATH%>/apple-touch-icon-precomposed.png">
     <link rel="stylesheet" href="<%=config.CONTEXT_PATH%>/js/lib/angular-material/angular-material.css">
-    <link rel="stylesheet" href="<%=config.CONTEXT_PATH%>/css/docs.css">
     <link rel="stylesheet" href="<%=config.CONTEXT_PATH%>/css/main.css">
+    <script src="<%=config.CONTEXT_PATH%>/dist/shumi.alarm.main.js"></script>
 </head>
 <body>
-    <h1>Alarm App</h1>
-<div layout="vertical">
-
-  <section layout="horizontal" flex ng-controller="SidebarCtrl">
-    <md-sidenav class="md-sidenav-left md-whiteframe-z2" component-id="left">
-      <md-toolbar class="md-theme-indigo">
-        <h1 class="md-toolbar-tools"><a href="#/new">New</a></h1>
-        <h1 class="md-toolbar-tools"><a href="#/">List</a></h1>
-      </md-toolbar>
-      <md-content class="md-content-padding">
-        <md-button ng-click="close()" class="md-button-colored" hide-md>
-          Close Sidenav Left
-        </md-button>
-      </md-content>
-    </md-sidenav>
-    <md-content flex class="md-content-padding">
-      <div layout="vertical" layout-fill layout-align="center center">
+    <div ng-controller="AuthCtrl">
         <div>
-          <md-button ng-click="toggleLeft()"
-            class="md-button-colored" hide-md>
-            Toggle left
-          </md-button>
+            <div ng-show="salutation">Hello, {{user.name}}</div>
         </div>
-        <div ng-view></div>
-      </div>
-    </md-content>
-  </section>
+        <button type="button" ng-show="!logged" ng-disabled="!facebookReady" ng-click="IntentLogin()">Login with Facebook</button>
+        <button type="button" ng-show="logged" ng-disabled="!facebookReady" ng-click="logout()">Logout</button>
+    </div>
+    <div class="main-content">
+        <div layout="vertical">
+            <section layout="horizontal" flex ng-controller="SidebarCtrl">
+                <md-sidenav class="md-sidenav-left md-whiteframe-z2" component-id="left">
+                    <md-toolbar>
+                        <h1 class="md-toolbar-tools md-theme-light">Alarm App</h1>
 
-</div>
-    <script src="<%=config.CONTEXT_PATH%>/dist/shumi.alarm.main.js"></script>
+                        <a class="menu-item menu-sub-item" ng-href="#/new" ink-ripple>
+                            <span>New</span>
+                        </a>
+                        <a class="menu-item menu-sub-item" ng-href="#/" ink-ripple>
+                            <span>List</span>
+                        </a>
+                    </md-toolbar>
+                    <md-content class="md-content-padding">
+                        <md-button ng-click="close()" class="md-button-colored" hide-md>
+                            Close Sidenav Left
+                        </md-button>
+                    </md-content>
+                </md-sidenav>
+                <md-content flex class="md-content-padding">
+                    <div layout="vertical" layout-fill layout-align="center center">
+                        <div>
+                            <md-button ng-click="toggleLeft()"
+                            class="md-button-colored" hide-md>
+                            Toggle left
+                            </md-button>
+                        </div>
+                        <div ng-view></div>
+                    </div>
+                </md-content>
+            </section>
+        </div>
+    </div>
 </body>
 </html>

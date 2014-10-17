@@ -68,6 +68,9 @@ var fbAuth = {
             } else {
                 console.log('error: ' + response.statusCode);
                 console.log(body);
+                if(callback){
+                    callback(new Error(body));
+                }
             }
         });
     }
