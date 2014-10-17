@@ -3,22 +3,44 @@
 <head>
     <meta charset="UTF-8">
     <title><%=title%></title>
-    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
     <meta name="format-detection" content="telephone=no">
     <link rel="shortcut icon" href="<%=config.CONTEXT_PATH%>/favicon.ico" />
     <link rel="apple-touch-icon-precomposed" href="<%=config.CONTEXT_PATH%>/apple-touch-icon-precomposed.png">
     <link rel="stylesheet" href="<%=config.CONTEXT_PATH%>/js/lib/angular-material/angular-material.css">
+    <link rel="stylesheet" href="<%=config.CONTEXT_PATH%>/css/docs.css">
     <link rel="stylesheet" href="<%=config.CONTEXT_PATH%>/css/main.css">
-    <script src="<%=config.CONTEXT_PATH%>/dist/shumi.alarm.main.js"></script>
 </head>
 <body>
     <h1>Alarm App</h1>
-    <div>
-        <div><a href="#/new">New</a></div>
-        <div><a href="#/">List</a></div>
-    </div>
-    <div>
+<div layout="vertical">
+
+  <section layout="horizontal" flex ng-controller="SidebarCtrl">
+    <md-sidenav class="md-sidenav-left md-whiteframe-z2" component-id="left">
+      <md-toolbar class="md-theme-indigo">
+        <h1 class="md-toolbar-tools"><a href="#/new">New</a></h1>
+        <h1 class="md-toolbar-tools"><a href="#/">List</a></h1>
+      </md-toolbar>
+      <md-content class="md-content-padding">
+        <md-button ng-click="close()" class="md-button-colored" hide-md>
+          Close Sidenav Left
+        </md-button>
+      </md-content>
+    </md-sidenav>
+    <md-content flex class="md-content-padding">
+      <div layout="vertical" layout-fill layout-align="center center">
+        <div>
+          <md-button ng-click="toggleLeft()"
+            class="md-button-colored" hide-md>
+            Toggle left
+          </md-button>
+        </div>
         <div ng-view></div>
-    </div>
+      </div>
+    </md-content>
+  </section>
+
+</div>
+    <script src="<%=config.CONTEXT_PATH%>/dist/shumi.alarm.main.js"></script>
 </body>
 </html>

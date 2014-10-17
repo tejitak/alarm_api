@@ -56,14 +56,13 @@ module.exports = function (grunt) {
             main: {
                 dest: "<%=constants.distDir%>/shumi.alarm.main.js",
                 src: [
-                    "<%=constants.baseDir%>/lib/hammerjs/hammer.js",
                     "<%=constants.baseDir%>/lib/angular/angular.js",
+                    "<%=constants.baseDir%>/lib/angular-animate/angular-animate.js",
+                    "<%=constants.baseDir%>/lib/hammerjs/hammer.js",
+                    "<%=constants.baseDir%>/lib/angular-material/angular-material.js",
                     "<%=constants.baseDir%>/lib/angular-resource/angular-resource.js",
                     "<%=constants.baseDir%>/lib/angular-route/angular-route.js",
-                    "<%=constants.baseDir%>/lib/angular-animate/angular-animate.js",
                     "<%=constants.baseDir%>/lib/angular-aria/angular-aria.js",
-                    "<%=constants.baseDir%>/lib/angular-material/angular-material.js",
-                    "<%=constants.baseDir%>/lib/angular/angular.js",
                     "<%=constants.baseDir%>/shumi/alarm/controllers/controllers.js",
                     "<%=constants.baseDir%>/shumi/alarm/directives/directives.js",
                     "<%=constants.baseDir%>/shumi/alarm/filters/filters.js",

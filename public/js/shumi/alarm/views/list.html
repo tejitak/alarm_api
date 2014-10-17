@@ -2,14 +2,17 @@
     <material-list>
         <material-item ng-repeat="item in todos">
             <material-item-content>
-                <div class="material-tile-left">
+                <div class="md-tile-left">
                     <img ng-src="{{item.face}}" class="face" alt="{{item.who}}">
                 </div>
-                <div class="material-tile-content">
+                <div class="md-tile-content">
                     <h3>{{item.what}}</h3>
                     <h4>{{item.who}}</h4>
                     <p>{{item.notes}}</p>
                 </div>
+                <md-switch ng-model="item.enabled" aria-label="Switch">
+                    Alerm: {{ item.enabled }}
+                </md-switch>
             </material-item-content>
         </material-item>
     </material-list>

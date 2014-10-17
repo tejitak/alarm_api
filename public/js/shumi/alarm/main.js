@@ -1,4 +1,4 @@
-var app = angular.module("alarm", ["ngRoute", "ngMaterial", "alarm.controllers", "alarm.services"]);
+var app = angular.module("alarm", ["ngRoute", "ngAnimate", "ngMaterial", "alarm.controllers", "alarm.services"]);
 
 app.config(["$routeProvider", function($routeProvider){
     $routeProvider.when("/", {
