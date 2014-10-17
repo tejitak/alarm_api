@@ -24,10 +24,11 @@ controllers.controller('AuthCtrl', [
                 return Facebook.isReady();
             },
             function(newVal) {
-                if (newVal)
+                if (newVal){
                     $scope.facebookReady = true;
+                }
             }
-            );
+        );
 
         var userIsConnected = false;
 
@@ -55,7 +56,6 @@ controllers.controller('AuthCtrl', [
                     $scope.logged = true;
                     $scope.me();
                 }
-
             });
         };
 
@@ -64,14 +64,13 @@ controllers.controller('AuthCtrl', [
         */
         $scope.me = function() {
             Facebook.api('/me', function(response) {
-        /**
-        * Using $scope.$apply since this happens outside angular framework.
-        */
-        $scope.$apply(function() {
-            $scope.user = response;
-        });
-
-        });
+                /**
+                * Using $scope.$apply since this happens outside angular framework.
+                */
+                $scope.$apply(function() {
+                    $scope.user = response;
+                });
+            });
         };
 
         /**
@@ -84,7 +83,7 @@ controllers.controller('AuthCtrl', [
                     $scope.logged = false;  
                 });
             });
-        }
+        };
 
         /**
         * Taking approach of Events :D
@@ -94,14 +93,16 @@ controllers.controller('AuthCtrl', [
             if (data.status == 'connected') {
                 $scope.$apply(function() {
                     $scope.salutation = true;
+                    $scope.logged = true;
+                    $scope.me();
                 });
             } else {
                 $scope.$apply(function() {
                     $scope.salutation = false;
+                    $scope.user   = {};
+                    $scope.logged = false;  
                 });
             }
         });
-
-
-}
+    }
 ]);
