@@ -1,17 +1,12 @@
-var app = angular.module("alarm", ["ngRoute", "ngAnimate", "ngMaterial", "facebook", "alarm.controllers", "alarm.services"]);
+var app = angular.module("alarm", ["ngRoute", "ngAnimate", "ngMaterial", "facebook", "alarm.config", "alarm.controllers", "alarm.services"]);
 
-app.config(["$routeProvider", "FacebookProvider", function($routeProvider, FacebookProvider){
+app.config(["$routeProvider", "FacebookProvider", "fbClientId", function($routeProvider, FacebookProvider, fbClientId){
     // setup facebook auth
-    FacebookProvider.init("561154400651504");
+    FacebookProvider.init(fbClientId);
 
     $routeProvider.when("/", {
         controller: "ListCtrl",
         templateUrl: "/js/shumi/alarm/views/list.html"
-        // resolve: {
-        //     alarms: function(MultiAlarmLoader){
-        //         return MultiAlarmLoader();
-        //     }
-        // }
     }).when("/edit/:alarmId", {
         controller: "EditCtrl",
         templateUrl: "/js/shumi/alarm/views/edit.html"

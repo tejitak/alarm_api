@@ -37701,7 +37701,7 @@ provides: [facebook]
 
 })(window, angular);
 
-var controllers = angular.module("alarm.controllers", ["ngMaterial"]);
+var controllers = angular.module("alarm.controllers", ["ngMaterial", "alarm.config"]);
 
 controllers.controller('SidebarCtrl', ["$scope", "$timeout", "$mdSidenav", function($scope, $timeout, $mdSidenav) {
     $scope.toggleLeft = function() {
@@ -37712,49 +37712,18 @@ controllers.controller('SidebarCtrl', ["$scope", "$timeout", "$mdSidenav", funct
     };
 }]);
 
-controllers.controller('ListCtrl', ["$scope", function($scope) {
-    $scope.todos = [
-    {
-        face : '/img/list/60.jpeg',
-        what: 'Brunch this weekend?',
-        who: 'Min Li Chan',
-        when: '3:08PM',
-        notes: " I'll be in your neighborhood doing errands",
-        enabled: true
-    },
-    {
-        face : '/img/list/60.jpeg',
-        what: 'Brunch this weekend?',
-        who: 'Min Li Chan',
-        when: '3:08PM',
-        notes: " I'll be in your neighborhood doing errands",
-        enabled: true
-    },
-    {
-        face : '/img/list/60.jpeg',
-        what: 'Brunch this weekend?',
-        who: 'Min Li Chan',
-        when: '3:08PM',
-        notes: " I'll be in your neighborhood doing errands",
-        enabled: false
-    },
-    {
-        face : '/img/list/60.jpeg',
-        what: 'Brunch this weekend?',
-        who: 'Min Li Chan',
-        when: '3:08PM',
-        notes: " I'll be in your neighborhood doing errands",
-        enabled: false
-    },
-    {
-        face : '/img/list/60.jpeg',
-        what: 'Brunch this weekend?',
-        who: 'Min Li Chan',
-        when: '3:08PM',
-        notes: " I'll be in your neighborhood doing errands",
-        enabled: true
-    }
-    ];
+controllers.controller('ListCtrl', ["$scope", "appConfig", "MultiAlarmLoader", function($scope, appConfig, MultiAlarmLoader) {
+    $scope.appConfig = appConfig;
+    $scope.$watch("appConfig.accessToken", function(val){
+        console.log("accessToken watcher:" + val);
+        if(val){
+            MultiAlarmLoader().then(function(alarms){
+                $scope.alarms = alarms;
+            });
+        }else{
+            $scope.alarms = [];
+        }
+    });
 }]);
 
 controllers.controller("NewCtrl", ["$scope", function(){
@@ -37762,11 +37731,8 @@ controllers.controller("NewCtrl", ["$scope", function(){
 }]);
 var controllers = angular.module("alarm.controllers");
 
-controllers.controller('AuthCtrl', [
-    '$scope',
-    '$timeout',
-    'Facebook',
-    function($scope, $timeout, Facebook) {
+controllers.controller('AuthCtrl', ['$scope', '$timeout', 'Facebook', 'appConfig',
+    function($scope, $timeout, Facebook, appConfig) {
 
         // Define user empty data :/
         $scope.user = {};
@@ -37830,7 +37796,7 @@ controllers.controller('AuthCtrl', [
                 * Using $scope.$apply since this happens outside angular framework.
                 */
                 $scope.$apply(function() {
-                    $scope.user = response;
+                    $scope.user = appConfig.me = response;
                 });
             });
         };
@@ -37841,7 +37807,7 @@ controllers.controller('AuthCtrl', [
         $scope.logout = function() {
             Facebook.logout(function() {
                 $scope.$apply(function() {
-                    $scope.user   = {};
+                    $scope.user = appConfig.me = {};
                     $scope.logged = false;  
                 });
             });
@@ -37857,12 +37823,15 @@ controllers.controller('AuthCtrl', [
                     $scope.salutation = true;
                     $scope.logged = true;
                     $scope.me();
+                    // store accessToken in global scope
+                    appConfig.accessToken = data.authResponse.accessToken;
                 });
             } else {
                 $scope.$apply(function() {
                     $scope.salutation = false;
-                    $scope.user   = {};
+                    $scope.user = appConfig.me = {};
                     $scope.logged = false;  
+                    appConfig.accessToken = null;
                 });
             }
         });
@@ -37885,10 +37854,13 @@ directives.directive('debug', function() {
     }
 });
 
-var services = angular.module("alarm.services", ["ngResource"]);
+var services = angular.module("alarm.services", ["ngResource", "alarm.config"]);
 
-services.factory("Alarm", ["$resource", function($resource){
-    return $resource("/api/alarm/:id", {id: "@id"});
+services.factory("Alarm", ["$resource", "appConfig", function($resource, appConfig){
+    return $resource("/api/list/:id", {
+        id: "@id",
+        inputToken: function(){ return appConfig.accessToken}
+    });
 }]);
 
 services.factory("MultiAlarmLoader", ["Alarm", "$q", function(Alarm, $q){
@@ -37914,20 +37886,21 @@ services.factory("AlarmLoader", ["Alarm", "$route", "$q", function(Alarm, $route
         return delay.promise;
     }
 }])
-var app = angular.module("alarm", ["ngRoute", "ngAnimate", "ngMaterial", "facebook", "alarm.controllers", "alarm.services"]);
+angular.module("alarm.config", []).
+    constant("fbClientId", "561154400651504").
+    value("appConfig", {
+        accessToken: null,
+        me: null
+    });
+var app = angular.module("alarm", ["ngRoute", "ngAnimate", "ngMaterial", "facebook", "alarm.config", "alarm.controllers", "alarm.services"]);
 
-app.config(["$routeProvider", "FacebookProvider", function($routeProvider, FacebookProvider){
+app.config(["$routeProvider", "FacebookProvider", "fbClientId", function($routeProvider, FacebookProvider, fbClientId){
     // setup facebook auth
-    FacebookProvider.init("561154400651504");
+    FacebookProvider.init(fbClientId);
 
     $routeProvider.when("/", {
         controller: "ListCtrl",
         templateUrl: "/js/shumi/alarm/views/list.html"
-        // resolve: {
-        //     alarms: function(MultiAlarmLoader){
-        //         return MultiAlarmLoader();
-        //     }
-        // }
     }).when("/edit/:alarmId", {
         controller: "EditCtrl",
         templateUrl: "/js/shumi/alarm/views/edit.html"

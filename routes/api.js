@@ -39,7 +39,48 @@ router.get('/list', function(req, res) {
             return;
         }
         res.contentType('application/json');
-        res.send([]);
+        res.send([
+            {
+                face : '/img/list/60.jpeg',
+                what: 'Brunch this weekend?',
+                who: 'Min Li Chan',
+                when: '3:08PM',
+                notes: " I'll be in your neighborhood doing errands",
+                enabled: true
+            },
+            {
+                face : '/img/list/60.jpeg',
+                what: 'Brunch this weekend?',
+                who: 'Min Li Chan',
+                when: '3:08PM',
+                notes: " I'll be in your neighborhood doing errands",
+                enabled: true
+            },
+            {
+                face : '/img/list/60.jpeg',
+                what: 'Brunch this weekend?',
+                who: 'Min Li Chan',
+                when: '3:08PM',
+                notes: " I'll be in your neighborhood doing errands",
+                enabled: false
+            },
+            {
+                face : '/img/list/60.jpeg',
+                what: 'Brunch this weekend?',
+                who: 'Min Li Chan',
+                when: '3:08PM',
+                notes: " I'll be in your neighborhood doing errands",
+                enabled: false
+            },
+            {
+                face : '/img/list/60.jpeg',
+                what: 'Brunch this weekend?',
+                who: 'Min Li Chan',
+                when: '3:08PM',
+                notes: " I'll be in your neighborhood doing errands",
+                enabled: true
+            }
+        ]);
     };
     fbAuth.checkAccessToken(req.query.inputToken, callback);
 });

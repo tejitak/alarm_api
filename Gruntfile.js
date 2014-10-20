@@ -69,6 +69,7 @@ module.exports = function (grunt) {
                     "<%=constants.baseDir%>/shumi/alarm/directives/directives.js",
                     "<%=constants.baseDir%>/shumi/alarm/filters/filters.js",
                     "<%=constants.baseDir%>/shumi/alarm/services/services.js",
+                    "<%=constants.baseDir%>/shumi/alarm/config.js",
                     "<%=constants.baseDir%>/shumi/alarm/main.js"
                 ]
             }

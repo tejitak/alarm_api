@@ -1,10 +1,7 @@
 var controllers = angular.module("alarm.controllers");
 
-controllers.controller('AuthCtrl', [
-    '$scope',
-    '$timeout',
-    'Facebook',
-    function($scope, $timeout, Facebook) {
+controllers.controller('AuthCtrl', ['$scope', '$timeout', 'Facebook', 'appConfig',
+    function($scope, $timeout, Facebook, appConfig) {
 
         // Define user empty data :/
         $scope.user = {};
@@ -68,7 +65,7 @@ controllers.controller('AuthCtrl', [
                 * Using $scope.$apply since this happens outside angular framework.
                 */
                 $scope.$apply(function() {
-                    $scope.user = response;
+                    $scope.user = appConfig.me = response;
                 });
             });
         };
@@ -79,7 +76,7 @@ controllers.controller('AuthCtrl', [
         $scope.logout = function() {
             Facebook.logout(function() {
                 $scope.$apply(function() {
-                    $scope.user   = {};
+                    $scope.user = appConfig.me = {};
                     $scope.logged = false;  
                 });
             });
@@ -95,12 +92,15 @@ controllers.controller('AuthCtrl', [
                     $scope.salutation = true;
                     $scope.logged = true;
                     $scope.me();
+                    // store accessToken in global scope
+                    appConfig.accessToken = data.authResponse.accessToken;
                 });
             } else {
                 $scope.$apply(function() {
                     $scope.salutation = false;
-                    $scope.user   = {};
+                    $scope.user = appConfig.me = {};
                     $scope.logged = false;  
+                    appConfig.accessToken = null;
                 });
             }
         });

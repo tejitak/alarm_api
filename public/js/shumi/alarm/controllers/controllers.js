@@ -1,4 +1,4 @@
-var controllers = angular.module("alarm.controllers", ["ngMaterial"]);
+var controllers = angular.module("alarm.controllers", ["ngMaterial", "alarm.config"]);
 
 controllers.controller('SidebarCtrl', ["$scope", "$timeout", "$mdSidenav", function($scope, $timeout, $mdSidenav) {
     $scope.toggleLeft = function() {
@@ -9,49 +9,18 @@ controllers.controller('SidebarCtrl', ["$scope", "$timeout", "$mdSidenav", funct
     };
 }]);
 
-controllers.controller('ListCtrl', ["$scope", function($scope) {
-    $scope.todos = [
-    {
-        face : '/img/list/60.jpeg',
-        what: 'Brunch this weekend?',
-        who: 'Min Li Chan',
-        when: '3:08PM',
-        notes: " I'll be in your neighborhood doing errands",
-        enabled: true
-    },
-    {
-        face : '/img/list/60.jpeg',
-        what: 'Brunch this weekend?',
-        who: 'Min Li Chan',
-        when: '3:08PM',
-        notes: " I'll be in your neighborhood doing errands",
-        enabled: true
-    },
-    {
-        face : '/img/list/60.jpeg',
-        what: 'Brunch this weekend?',
-        who: 'Min Li Chan',
-        when: '3:08PM',
-        notes: " I'll be in your neighborhood doing errands",
-        enabled: false
-    },
-    {
-        face : '/img/list/60.jpeg',
-        what: 'Brunch this weekend?',
-        who: 'Min Li Chan',
-        when: '3:08PM',
-        notes: " I'll be in your neighborhood doing errands",
-        enabled: false
-    },
-    {
-        face : '/img/list/60.jpeg',
-        what: 'Brunch this weekend?',
-        who: 'Min Li Chan',
-        when: '3:08PM',
-        notes: " I'll be in your neighborhood doing errands",
-        enabled: true
-    }
-    ];
+controllers.controller('ListCtrl', ["$scope", "appConfig", "MultiAlarmLoader", function($scope, appConfig, MultiAlarmLoader) {
+    $scope.appConfig = appConfig;
+    $scope.$watch("appConfig.accessToken", function(val){
+        console.log("accessToken watcher:" + val);
+        if(val){
+            MultiAlarmLoader().then(function(alarms){
+                $scope.alarms = alarms;
+            });
+        }else{
+            $scope.alarms = [];
+        }
+    });
 }]);
 
 controllers.controller("NewCtrl", ["$scope", function(){

@@ -1,7 +1,10 @@
-var services = angular.module("alarm.services", ["ngResource"]);
+var services = angular.module("alarm.services", ["ngResource", "alarm.config"]);
 
-services.factory("Alarm", ["$resource", function($resource){
-    return $resource("/api/alarm/:id", {id: "@id"});
+services.factory("Alarm", ["$resource", "appConfig", function($resource, appConfig){
+    return $resource("/api/list/:id", {
+        id: "@id",
+        inputToken: function(){ return appConfig.accessToken}
+    });
 }]);
 
 services.factory("MultiAlarmLoader", ["Alarm", "$q", function(Alarm, $q){
