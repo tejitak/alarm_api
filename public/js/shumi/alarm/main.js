@@ -5,8 +5,17 @@ app.config(["$routeProvider", "FacebookProvider", "fbClientId", function($routeP
     FacebookProvider.init(fbClientId);
 
     $routeProvider.when("/", {
+        controller: "TopCtrl",
+        templateUrl: "/js/shumi/alarm/views/top.html"
+    }).when("/list", {
         controller: "ListCtrl",
         templateUrl: "/js/shumi/alarm/views/list.html"
+    }).when("/past", {
+        controller: "ListCtrl",
+        templateUrl: "/js/shumi/alarm/views/list.html"
+    }).when("/calendar", {
+        controller: "CalendarCtrl",
+        templateUrl: "/js/shumi/alarm/views/calendar.html"
     }).when("/edit/:alarmId", {
         controller: "EditCtrl",
         templateUrl: "/js/shumi/alarm/views/edit.html"

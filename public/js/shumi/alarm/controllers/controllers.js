@@ -9,18 +9,26 @@ controllers.controller('SidebarCtrl', ["$scope", "$timeout", "$mdSidenav", funct
     };
 }]);
 
-controllers.controller('ListCtrl', ["$scope", "appConfig", "MultiAlarmLoader", function($scope, appConfig, MultiAlarmLoader) {
+controllers.controller("TopCtrl", ["$scope", function(){
+
+}]);
+
+controllers.controller('ListCtrl', ["$scope", "appConfig", "MultiAlarmLoader", "$mdDialog", function($scope, appConfig, MultiAlarmLoader, $mdDialog) {
     $scope.appConfig = appConfig;
     $scope.$watch("appConfig.accessToken", function(val){
         console.log("accessToken watcher:" + val);
         if(val){
-            MultiAlarmLoader().then(function(alarms){
-                $scope.alarms = alarms;
-            });
+            MultiAlarmLoader().then(function(alarms){ $scope.alarms = alarms; });
+            $mdDialog.hide();
         }else{
             $scope.alarms = [];
+            $mdDialog.show({templateUrl: '/js/shumi/alarm/views/dialog/login.html'});
         }
     });
+}]);
+
+controllers.controller("CalendarCtrl", ["$scope", function(){
+
 }]);
 
 controllers.controller("NewCtrl", ["$scope", function(){

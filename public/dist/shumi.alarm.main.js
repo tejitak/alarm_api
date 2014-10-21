@@ -37712,18 +37712,26 @@ controllers.controller('SidebarCtrl', ["$scope", "$timeout", "$mdSidenav", funct
     };
 }]);
 
-controllers.controller('ListCtrl', ["$scope", "appConfig", "MultiAlarmLoader", function($scope, appConfig, MultiAlarmLoader) {
+controllers.controller("TopCtrl", ["$scope", function(){
+
+}]);
+
+controllers.controller('ListCtrl', ["$scope", "appConfig", "MultiAlarmLoader", "$mdDialog", function($scope, appConfig, MultiAlarmLoader, $mdDialog) {
     $scope.appConfig = appConfig;
     $scope.$watch("appConfig.accessToken", function(val){
         console.log("accessToken watcher:" + val);
         if(val){
-            MultiAlarmLoader().then(function(alarms){
-                $scope.alarms = alarms;
-            });
+            MultiAlarmLoader().then(function(alarms){ $scope.alarms = alarms; });
+            $mdDialog.hide();
         }else{
             $scope.alarms = [];
+            $mdDialog.show({templateUrl: '/js/shumi/alarm/views/dialog/login.html'});
         }
     });
+}]);
+
+controllers.controller("CalendarCtrl", ["$scope", function(){
+
 }]);
 
 controllers.controller("NewCtrl", ["$scope", function(){
@@ -37837,6 +37845,21 @@ controllers.controller('AuthCtrl', ['$scope', '$timeout', 'Facebook', 'appConfig
         });
     }
 ]);
+var controllers = angular.module("alarm.controllers");
+
+controllers.controller("LoginDialogCtrl", ["$scope", "$controller", "$mdDialog", function($scope, $controller, $mdDialog){
+    // reuse auth controlller
+    var authCtrlScope = $scope.$new();
+    $controller("AuthCtrl", {$scope: authCtrlScope});
+
+    $scope.IntentLogin = function(){
+        authCtrlScope.IntentLogin();
+    };
+
+    $scope.hide = function(){
+        $mdDialog.hide();
+    };
+}]);
 var directives = angular.module("alarm.directives", []);
 
 directives.directive('debug', function() {
@@ -37899,8 +37922,17 @@ app.config(["$routeProvider", "FacebookProvider", "fbClientId", function($routeP
     FacebookProvider.init(fbClientId);
 
     $routeProvider.when("/", {
+        controller: "TopCtrl",
+        templateUrl: "/js/shumi/alarm/views/top.html"
+    }).when("/list", {
         controller: "ListCtrl",
         templateUrl: "/js/shumi/alarm/views/list.html"
+    }).when("/past", {
+        controller: "ListCtrl",
+        templateUrl: "/js/shumi/alarm/views/list.html"
+    }).when("/calendar", {
+        controller: "CalendarCtrl",
+        templateUrl: "/js/shumi/alarm/views/calendar.html"
     }).when("/edit/:alarmId", {
         controller: "EditCtrl",
         templateUrl: "/js/shumi/alarm/views/edit.html"

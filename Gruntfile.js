@@ -66,6 +66,7 @@ module.exports = function (grunt) {
                     "<%=constants.baseDir%>/lib/angular-facebook/angular-facebook.js",
                     "<%=constants.baseDir%>/shumi/alarm/controllers/controllers.js",
                     "<%=constants.baseDir%>/shumi/alarm/controllers/authController.js",
+                    "<%=constants.baseDir%>/shumi/alarm/controllers/dialogController.js",
                     "<%=constants.baseDir%>/shumi/alarm/directives/directives.js",
                     "<%=constants.baseDir%>/shumi/alarm/filters/filters.js",
                     "<%=constants.baseDir%>/shumi/alarm/services/services.js",
